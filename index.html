@@ -8,27 +8,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-html { height:100%; }
-body { font-family:'Segoe UI',-apple-system,sans-serif; background:#0f1117; color:#e8e0d4; display:flex; flex-direction:column; height:100dvh; min-height:100vh; overflow:hidden; }
+body { font-family:"Segoe UI",-apple-system,sans-serif; background:#0f1117; color:#e8e0d4; display:flex; flex-direction:column; height:100vh; overflow:hidden; }
 
-/* ── 헤더 ── */
-#header {
-  padding:12px 20px 10px; background:linear-gradient(135deg,#1a1f2e,#0f1117);
-  border-bottom:1px solid #2a2f3e; display:flex; align-items:center; gap:12px; flex-wrap:wrap; flex-shrink:0;
-}
+#header { padding:12px 20px 10px; background:linear-gradient(135deg,#1a1f2e,#0f1117); border-bottom:1px solid #2a2f3e; display:flex; align-items:center; gap:12px; flex-wrap:wrap; flex-shrink:0; }
 #header h1 { font-size:15px; font-weight:700; color:#e8c87a; }
 #header span { font-size:12px; color:#7a8099; }
 
-/* ── 컨트롤 ── */
-#controls {
-  padding:8px 20px; background:#141820; border-bottom:1px solid #2a2f3e;
-  display:flex; gap:6px; flex-wrap:wrap; align-items:center; flex-shrink:0;
-}
+#controls { padding:8px 20px; background:#141820; border-bottom:1px solid #2a2f3e; display:flex; gap:6px; flex-wrap:wrap; align-items:center; flex-shrink:0; }
 .ctrl-label { font-size:10px; color:#7a8099; font-weight:700; letter-spacing:.5px; text-transform:uppercase; margin-right:2px; }
-.day-btn {
-  padding:4px 11px; border-radius:20px; border:1px solid #2a2f3e;
-  background:#1a1f2e; color:#9da5b4; font-size:11px; font-weight:600; cursor:pointer; transition:all .2s;
-}
+.day-btn { padding:4px 11px; border-radius:20px; border:1px solid #2a2f3e; background:#1a1f2e; color:#9da5b4; font-size:11px; font-weight:600; cursor:pointer; transition:all .2s; }
 .day-btn:hover { border-color:#e8c87a; color:#e8c87a; }
 .day-btn.active { background:#e8c87a; color:#0f1117; border-color:#e8c87a; }
 .day-btn.all.active { background:#4a90d9; color:#fff; border-color:#4a90d9; }
@@ -40,43 +28,27 @@ body { font-family:'Segoe UI',-apple-system,sans-serif; background:#0f1117; colo
 .krw-toggle { padding:4px 10px; border-radius:20px; border:1.5px solid #4a90d9; background:#1a1f2e; color:#4a90d9; font-size:11px; font-weight:600; cursor:pointer; transition:all .2s; }
 .krw-toggle.active { background:#4a90d9; color:#fff; }
 
-/* ── 메인 영역 ── */
 #main { display:flex; flex:1; overflow:hidden; }
 
-/* ── 사이드패널 ── */
-#panel {
-  width:0; min-width:0; background:#141820; border-right:1px solid #2a2f3e;
-  overflow:hidden; transition:width .3s ease; flex-shrink:0; display:flex; flex-direction:column;
-}
+#panel { width:0; min-width:0; background:#141820; border-right:1px solid #2a2f3e; overflow:hidden; transition:width .3s ease; flex-shrink:0; display:flex; flex-direction:column; }
 #panel.open { width:340px; }
-#panel-header {
-  padding:14px 16px 10px; border-bottom:1px solid #2a2f3e;
-  display:flex; align-items:flex-start; justify-content:space-between; flex-shrink:0;
-}
+#panel-header { padding:14px 16px 10px; border-bottom:1px solid #2a2f3e; display:flex; align-items:flex-start; justify-content:space-between; flex-shrink:0; }
 #panel-title { font-size:14px; font-weight:700; color:#e8c87a; line-height:1.4; }
 #panel-sub { font-size:11px; color:#7a8099; margin-top:3px; }
 #panel-close { background:none; border:none; color:#7a8099; font-size:18px; cursor:pointer; padding:0 4px; line-height:1; flex-shrink:0; }
 #panel-close:hover { color:#e8e0d4; }
-#panel-summary {
-  padding:8px 16px; background:#1a1f2e; border-bottom:1px solid #2a2f3e;
-  font-size:11px; color:#9da5b4; display:flex; gap:16px; flex-shrink:0;
-}
+#panel-summary { padding:8px 16px; background:#1a1f2e; border-bottom:1px solid #2a2f3e; font-size:11px; color:#9da5b4; display:flex; gap:16px; flex-shrink:0; }
 #panel-summary span { display:flex; align-items:center; gap:4px; }
 #panel-list { overflow-y:auto; flex:1; }
 #panel-list::-webkit-scrollbar { width:4px; }
 #panel-list::-webkit-scrollbar-track { background:#141820; }
 #panel-list::-webkit-scrollbar-thumb { background:#2a2f3e; border-radius:2px; }
 
-/* ── 패널 아이템 ── */
-.p-item {
-  padding:12px 16px; border-bottom:1px solid #1f2535; cursor:pointer; transition:background .15s; display:flex; gap:10px;
-}
+.p-item { padding:12px 16px; border-bottom:1px solid #1f2535; cursor:pointer; transition:background .15s; display:flex; gap:10px; }
 .p-item:hover { background:#1a1f2e; }
 .p-item.active { background:#1e2a3a; border-left:3px solid #e8c87a; }
-.p-num {
-  width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center;
-  font-size:12px; font-weight:700; flex-shrink:0; color:#0f1117; margin-top:1px;
-}
+.p-num { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; color:#0f1117; margin-top:1px; cursor:pointer; }
+.p-num:hover { transform:scale(1.15); }
 .p-body { flex:1; min-width:0; }
 .p-name { font-size:13px; font-weight:700; color:#e8e0d4; margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .p-meta { display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:4px; }
@@ -91,10 +63,8 @@ body { font-family:'Segoe UI',-apple-system,sans-serif; background:#0f1117; colo
 .p-badge-opt { font-size:9px; background:#2a7a4a; color:#fff; padding:1px 5px; border-radius:8px; font-weight:700; }
 .p-note { font-size:10px; color:#7a8099; margin-top:3px; line-height:1.4; }
 
-/* ── 지도 ── */
-#map { flex:1; min-height:300px; }
+#map { flex:1; }
 
-/* ── Leaflet 팝업 ── */
 .leaflet-popup-content-wrapper { background:#1a1f2e; color:#e8e0d4; border-radius:10px; box-shadow:0 8px 32px rgba(0,0,0,.6); border:1px solid #2a2f3e; }
 .leaflet-popup-tip { background:#1a1f2e; }
 .leaflet-popup-content { margin:0; }
@@ -105,13 +75,9 @@ body { font-family:'Segoe UI',-apple-system,sans-serif; background:#0f1117; colo
 .pop-notes { font-size:11px; color:#b0b8c8; line-height:1.5; border-top:1px solid #2a2f3e; padding-top:6px; }
 .leaflet-popup-close-button { color:#7a8099 !important; }
 
-/* ── 드래그 핸들 (모바일) ── */
 #panel-drag { display:none; }
 
-/* ── 모바일 반응형 ── */
 @media (max-width:768px) {
-  #header h1 { font-size:13px; }
-  #header span { font-size:11px; }
   #header { padding:8px 14px 6px; }
   #header h1 { font-size:12px; }
   #controls {
@@ -196,9 +162,6 @@ body { font-family:'Segoe UI',-apple-system,sans-serif; background:#0f1117; colo
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════
-// 1. 데이터
-// ═══════════════════════════════════════════════════════
 const CAT = {
   accommodation:{ color:'#4a90d9', emoji:'🏨', label:'숙소' },
   restaurant:   { color:'#e8a838', emoji:'🍽️', label:'식당' },
@@ -208,9 +171,14 @@ const CAT = {
   yoga:         { color:'#1abc9c', emoji:'🧘', label:'요가' }
 };
 
-// 장소 데이터
 const PLACES = [
   // ── 숙소
+  { id:'stay_capsule', name:'공항 근처 캡슐호텔', category:'accommodation', day:[1],
+    lat:-8.7480, lng:115.1680, address:'응우라라이 공항 인근, Jimbaran',
+    time:'22:30~02:00', transport:'🚶 공항 도보 or 셔틀',
+    desc:'1일차 심야 대기용. 씻고 쉬다가 새벽 2:40 투어 미팅.',
+    rating:'-', priceIDR:200000, priceNote:'1인 기준',
+    reserve:true, notes:'7/6 02:40 Airport Circle K 앞 가이드 미팅 전 대기' },
   { id:'stay_01', name:'코마네카 앳 비스마', category:'accommodation', day:[2,3],
     lat:-8.5147, lng:115.2584, address:'Jl. Bisma, Ubud',
     time:'', transport:'',
@@ -233,20 +201,20 @@ const PLACES = [
   // ── 레스토랑
   { id:'rest_karsacafe', name:'Karsa Kafe', category:'restaurant', day:[2],
     lat:-8.4893, lng:115.2498, address:'Keliki, Jl. Bangkiang Sidem, Tegallalang',
-    time:'11:00~12:00', transport:'🚶 스파 동일 부지',
-    desc:'스파 併設 논밭뷰 야외 카페. 나시 캄푸르·신선 주스 추천.',
+    time:'13:00~14:00', transport:'🚶 스파 동일 부지',
+    desc:'스파 병설 논밭뷰 야외 카페. 나시 캄푸르·신선 주스.',
     rating:'구글 4.2', priceIDR:80000, priceNote:'1인 기준',
     reserve:false, notes:'스파 후 여유롭게 브런치' },
   { id:'rest_shichirin', name:'Shichirin Ubud (선택 A)', category:'restaurant', day:[2],
     lat:-8.5192, lng:115.2619, address:'Jl. Bisma No.888A, Kaamala Resort',
     time:'19:00~', transport:'🚶 코마네카 도보 5분',
-    desc:'텝판야키 라이브쇼. 콘로 그릴·불쇼 칵테일쇼. 와규·니기리 추천.',
+    desc:'텝판야키 라이브쇼. 콘로 그릴·불쇼·칵테일쇼. 와규·니기리.',
     rating:'구글 4.8', priceIDR:500000, priceNote:'1인 기준',
     reserve:true, notes:'당일 컨디션 보고 Warung Gauri와 선택' },
   { id:'rest_gauri', name:'Warung Gauri (선택 B)', category:'restaurant', day:[2],
     lat:-8.5082, lng:115.2595, address:'Jl. Bisma 골목, Ubud',
     time:'19:00~', transport:'🚶 코마네카 도보 3분',
-    desc:'로컬 히든젬. 논밭뷰 야외석. 나시 캄푸르·그릴드 가지·로컬 와인.',
+    desc:'로컬 히든젬. 논밭뷰 야외석. 나시 캄푸르·그릴드 가지.',
     rating:'구글 4.4', priceIDR:150000, priceNote:'1인 기준',
     reserve:false, notes:'피곤한 날엔 이쪽 추천' },
   { id:'rest_burus', name:'Warung Makan Bu Rus', category:'restaurant', day:[3],
@@ -258,7 +226,7 @@ const PLACES = [
   { id:'rest_pasir', name:'PASIR Ubud', category:'restaurant', day:[3],
     lat:-8.5160, lng:115.2605, address:'Ubud (Jl. Bisma 인근)',
     time:'19:00~', transport:'🛺 Grab 5분',
-    desc:'정글 지중해 감성 초신상. 우드그릴 생선·시그니처 칵테일 강추.',
+    desc:'정글 지중해 감성 초신상. 우드그릴 생선·시그니처 칵테일.',
     rating:'구글 4.7', priceIDR:400000, priceNote:'1인 기준',
     reserve:true, notes:'밤 11시까지 영업' },
   { id:'rest_cretya', name:'Cretya Ubud', category:'restaurant', day:[4],
@@ -269,17 +237,17 @@ const PLACES = [
     reserve:false, notes:'수영복 챙겨가면 수영도 가능' },
   { id:'rest_pennylane', name:'Penny Lane', category:'restaurant', day:[4],
     lat:-8.6505, lng:115.1310, address:'Jl. Batu Bolong, Canggu',
-    time:'19:00~', transport:'🛺 Grab 5분',
+    time:'19:00~21:00', transport:'🛺 Grab 5분',
     desc:'로마신전 감성 힙플. 버거·타코·수제 맥주.',
     rating:'구글 4.5', priceIDR:200000, priceNote:'1인 기준',
-    reserve:false, notes:'짱구 첫날 저녁 가볍게' },
-  { id:'rest_labrisa', name:'La Brisa Bali', category:'restaurant', day:[5],
+    reserve:false, notes:'저녁 후 La Brisa 비치클럽 이동 (Grab 5분)' },
+  { id:'rest_labrisa', name:'La Brisa Bali 🏖️', category:'restaurant', day:[4,5],
     lat:-8.6479, lng:115.1199, address:'Jl. Pantai Batu Bolong, Canggu',
-    time:'13:00~16:00', transport:'🚶 빌라 도보 10분',
+    time:'4일: 21:00~ / 5일: 13:00~16:00', transport:'🚗 Grab 5분',
     desc:'피터팬 동화 감성 비치클럽. 데이베드·수영·피자·선셋 칵테일.',
     rating:'구글 4.6', priceIDR:400000, priceNote:'데이베드+음료 1인',
-    reserve:true, notes:'데이베드 사전예약 추천' },
-  { id:'rest_smoke', name:'Smoke Bali', category:'restaurant', day:[5],
+    reserve:true, notes:'영업 10:00~23:00 · 데이베드 사전예약 추천 · 4일차는 저녁 후 칵테일 목적' },
+  { id:'rest_smoke', name:'Smoke Bali 🔥', category:'restaurant', day:[5],
     lat:-8.6521, lng:115.1280, address:'Jl. Pantai Batu Mejan No.69, Canggu',
     time:'19:00~', transport:'🚶 데우스 근처 도보',
     desc:'18시간 저온 훈제 BBQ. 브리스킷·풀드포크·비프 쇼트립.',
@@ -288,22 +256,22 @@ const PLACES = [
   { id:'rest_sensorium', name:'Sensorium Bali', category:'restaurant', day:[6],
     lat:-8.6503, lng:115.1252, address:'Jl. Pantai Batu Mejan, Canggu',
     time:'12:00~14:00', transport:'🚗 빌라 체크아웃 후',
-    desc:'감각적인 오스트레일리안 퓨전. 드라이 라멘·미소 팬케이크 추천.',
+    desc:'감각적인 오스트레일리안 퓨전. 드라이 라멘·미소 팬케이크.',
     rating:'구글 4.7', priceIDR:250000, priceNote:'1인 기준',
     reserve:false, notes:'⚠️ 영업 09:00~16:00만' },
-  { id:'rest_rockbar', name:'Rock Bar (AYANA)', category:'restaurant', day:[6],
+  { id:'rest_rockbar', name:'Rock Bar (AYANA) 🌅', category:'restaurant', day:[6],
     lat:-8.7845, lng:115.1558, address:'AYANA Resort 절벽, Jimbaran',
     time:'17:00~18:30', transport:'🚐 리조트 셔틀',
     desc:'절벽 위 선셋 명소. 칵테일·타파스. 일몰 18:10.',
     rating:'구글 4.4', priceIDR:300000, priceNote:'칵테일 2잔 기준',
     reserve:true, notes:'⚠️ 아야나 앱으로 자리 사전 선점 필수' },
-  { id:'rest_honzen', name:'Honzen Bali', category:'restaurant', day:[6],
+  { id:'rest_honzen', name:'Honzen Bali 🍣', category:'restaurant', day:[6],
     lat:-8.7828, lng:115.1572, address:'AYANA Resort 내, Jimbaran',
     time:'19:00~21:00', transport:'🚐 리조트 셔틀',
     desc:'아야나 내 고급 일식당. 사시미·스시·스키야키 정갈한 코스.',
     rating:'구글 4.6', priceIDR:600000, priceNote:'1인 기준',
     reserve:true, notes:'Rock Bar 후 바로 이동' },
-  { id:'rest_scusa', name:'Scusa Restaurant', category:'restaurant', day:[7],
+  { id:'rest_scusa', name:'Scusa Restaurant 🥂', category:'restaurant', day:[7],
     lat:-8.7832, lng:115.1568, address:'AYANA Resort 내, Jimbaran',
     time:'19:00~', transport:'🚶 리조트 내',
     desc:'아야나 내 지중해식 파인다이닝. 해산물·파스타·와인.',
@@ -311,89 +279,95 @@ const PLACES = [
     reserve:true, notes:'아야나 호캉스 마지막 디너' },
 
   // ── 스파
-  { id:'spa_karsa', name:'Karsa Spa', category:'spa', day:[2],
+  { id:'spa_karsa', name:'Karsa Spa 💆', category:'spa', day:[2],
     lat:-8.4893, lng:115.2498, address:'Keliki, Jl. Bangkiang Sidem, Tegallalang',
-    time:'09:00~11:00', transport:'🚗 택시 10분 (바투르산→)',
+    time:'11:00~13:00', transport:'🚗 택시 (바투르산→)',
     desc:'논밭뷰 야외 커플룸. 발리니즈 마사지·플라워 배스.',
     rating:'구글 4.7', priceIDR:500000, priceNote:'커플 90분 기준',
-    reserve:true, notes:'⚠️ WhatsApp 사전예약 필수 · Grab 픽업 불가 (마을 규정)' },
+    reserve:true, notes:'✅ 11:00 예약 확정 · ⚠️ Grab 픽업 불가 (마을 규정) · 킨타마니 카페→스파 이동' },
   { id:'spa_komaneka', name:'코마네카 스파 (Wana Jiwa)', category:'spa', day:[3],
     lat:-8.5150, lng:115.2580, address:'Komaneka at Bisma 내',
     time:'17:00~18:30', transport:'🚶 숙소 내',
     desc:'아유르베다·바디 트리트먼트·커플 마사지.',
     rating:'-', priceIDR:600000, priceNote:'커플 90분 기준',
     reserve:true, notes:'프런트에 사전예약 필요' },
-  { id:'spa_calma', name:'The Calma Spa Bali', category:'spa', day:[7],
-    lat:-8.7762, lng:115.1658, address:'Jl. Uluwatu II No.108X, Jimbaran',
+  { id:'spa_calma', name:'The Calma Spa Bali 💆', category:'spa', day:[7],
+    lat:-8.7980, lng:115.1620, address:'Jl. Uluwatu II No.108X, Jimbaran',
     time:'14:00~16:00', transport:'🚗 픽업 무료',
     desc:'발리니즈 마사지·바디 스크럽·플라워 배스 패키지.',
     rating:'구글 4.6', priceIDR:400000, priceNote:'1인 60분 기준',
     reserve:true, notes:'✅ 픽업·드롭오프 서비스 무료 · 한국인 리뷰 多' },
 
   // ── 관광지
-  { id:'attr_batur', name:'바투르산', category:'attraction', day:[1,2],
+  { id:'attr_airport', name:'응우라라이 국제공항 ✈️', category:'attraction', day:[1,8],
+    lat:-8.7467, lng:115.1671, address:'Jimbaran, Bali (DPS)',
+    time:'22:10 도착 / 13:15 출발', transport:'✈️ KE431 / SQ939',
+    desc:'1일차 22:10 KE431 도착 (ICN 16:10 출발) · 8일차 13:15 SQ939 출발',
+    rating:'-', priceIDR:0, priceNote:'-',
+    reserve:false, notes:'출발 2시간 전 도착 권장 · 면세구역 쇼핑' },
+  { id:'attr_circlek', name:'Circle K (투어 미팅 포인트)', category:'attraction', day:[1],
+    lat:-8.7472, lng:115.1665, address:'Airport Circle K, Jimbaran',
+    time:'7/6 02:40', transport:'🚶 공항 근처',
+    desc:'지프투어 가이드 미팅 포인트. 캡슐호텔에서 도보 이동.',
+    rating:'-', priceIDR:0, priceNote:'-',
+    reserve:false, notes:'가이드 이름 및 연락처 사전 확인 필수' },
+  { id:'attr_batur', name:'바투르산 🌋', category:'attraction', day:[2],
     lat:-8.2421, lng:115.3752, address:'Kintamani, Bali',
-    time:'새벽 04:00~08:00', transport:'🚗 지프',
-    desc:'해발 1,717m 활화산. 지프 일출 투어 + 블랙 라바 선택.',
+    time:'새벽 04:00~11:00', transport:'🚗 지프',
+    desc:'해발 1,717m 활화산. 지프 일출(120분)+블랙라바(60분)+커피농장(60분)+킨타마니카페(60분).',
     rating:'-', priceIDR:850000, priceNote:'지프투어 1대 기준',
-    reserve:true, notes:'새벽 2~3시 공항 출발 · 블랙 라바 +60분' },
-  { id:'attr_palace', name:'우부드 왕궁', category:'attraction', day:[3],
+    reserve:true, notes:'총 4시간 소요 · 커피농장 루왁커피 체험 포함 · 킨타마니 카페 인생샷' },
+  { id:'attr_palace', name:'우부드 왕궁 🏰', category:'attraction', day:[3],
     lat:-8.5063, lng:115.2633, address:'Jl. Raya Ubud',
     time:'10:45~11:15', transport:'🚐 호텔 셔틀',
-    desc:'우부드 왕족 거주지. 전통 발리 건축. 저녁 레곡 댄스 공연 19:00.',
+    desc:'우부드 왕족 거주지. 전통 발리 건축. 저녁 레곡 댄스 19:00.',
     rating:'구글 4.5', priceIDR:0, priceNote:'무료입장',
     reserve:false, notes:'레곡 댄스 입장료 100,000 IDR 별도' },
-  { id:'attr_saraswati', name:'사라스와티 사원', category:'attraction', day:[3],
+  { id:'attr_saraswati', name:'사라스와티 사원 🪷', category:'attraction', day:[3],
     lat:-8.5056, lng:115.2627, address:'Jl. Kajeng, Ubud',
     time:'11:15~11:30', transport:'🚶 왕궁 도보 2분',
     desc:'연꽃 연못 포토스팟. 힌두 학문의 여신 사원.',
     rating:'구글 4.6', priceIDR:0, priceNote:'무료입장',
     reserve:false, notes:'사롱(허리띠) 착용 필수 · 입구에서 대여 가능' },
-  { id:'attr_artmarket', name:'우부드 아트마켓', category:'attraction', day:[3],
+  { id:'attr_artmarket', name:'우부드 아트마켓 🛍️', category:'attraction', day:[3],
     lat:-8.5067, lng:115.2633, address:'Jl. Raya Ubud (왕궁 맞은편)',
     time:'11:30~13:00', transport:'🚶 사원 도보 1분',
     desc:'수공예·직물·소품·Ticket to the Moon 쇼핑.',
     rating:'-', priceIDR:0, priceNote:'쇼핑 예산별',
-    reserve:false, notes:'흥정 문화 · 가격 50% 정도 네고 가능' },
-  { id:'attr_monkey', name:'몽키 포레스트', category:'attraction', day:[3],
+    reserve:false, notes:'흥정 문화 · 가격 50% 네고 가능' },
+  { id:'attr_monkey', name:'몽키 포레스트 🐒', category:'attraction', day:[3],
     lat:-8.5196, lng:115.2621, address:'Jl. Monkey Forest, Ubud',
     time:'15:00~16:30', transport:'🚶 Bu Rus 도보 15분',
     desc:'원숭이 600마리 서식 신성한 숲. 3개 힌두 사원 내부.',
     rating:'구글 4.5', priceIDR:100000, priceNote:'1인 입장료',
     reserve:false, notes:'⚠️ 오후 5시 마감 · 음식·가방 주의' },
-  { id:'attr_campuhan', name:'캄푸한 릿지워크', category:'attraction', day:[4],
+  { id:'attr_campuhan', name:'캄푸한 릿지워크 🌿', category:'attraction', day:[4],
     lat:-8.5052, lng:115.2563, address:'Campuhan Ridge Walk 입구, Ubud',
-    time:'이른 아침', transport:'🚶 코마네카 도보 15분',
+    time:'조식 후 이른 아침', transport:'🚶 코마네카 도보 15분',
     desc:'논밭·정글 뷰 트레킹. 편도 2km. 끝 지점 Karsa Spa.',
     rating:'-', priceIDR:0, priceNote:'무료',
     reserve:false, notes:'아침 일찍 출발 (더위 전) · 선크림 필수' },
-  { id:'attr_tegalalang', name:'뜨갈랄랑 논테라스', category:'attraction', day:[4],
+  { id:'attr_tegalalang', name:'뜨갈랄랑 논테라스 🌾', category:'attraction', day:[4],
     lat:-8.4280, lng:115.2793, address:'Jl. Raya Tegalalang, Gianyar',
     time:'11:00~12:00', transport:'🚗 차량 이동',
     desc:'계단식 논밭 UNESCO 유산. 인생샷 포토스팟.',
     rating:'구글 4.4', priceIDR:50000, priceNote:'입장료',
     reserve:false, notes:'커피농장 투어 연계 가능' },
-  { id:'attr_deus', name:'데우스 엑스 마키나', category:'attraction', day:[5],
+  { id:'attr_deus', name:'데우스 엑스 마키나 🏄', category:'attraction', day:[5],
     lat:-8.6540, lng:115.1303, address:'Jl. Batu Mejan No.8, Canggu',
     time:'16:00~17:00', transport:'🚶 La Brisa 근처',
     desc:'서핑보드·오토바이·카페 편집샵. 짱구 아이콘 힙플.',
     rating:'구글 4.5', priceIDR:0, priceNote:'쇼핑 예산별',
     reserve:false, notes:'티셔츠·라이더재킷 쇼핑 추천' },
-  { id:'attr_kububeach', name:'쿠부 비치 (AYANA)', category:'attraction', day:[7],
+  { id:'attr_kububeach', name:'쿠부 비치 (AYANA) 🏝️', category:'attraction', day:[7],
     lat:-8.7858, lng:115.1545, address:'AYANA Resort, Jimbaran',
     time:'09:00~12:00', transport:'🚐 리조트 셔틀',
     desc:'투숙객 전용 프라이빗 화이트 샌드 비치.',
     rating:'-', priceIDR:0, priceNote:'투숙객 무료',
     reserve:false, notes:'선베드·파라솔·드링크 서비스 포함' },
-  { id:'attr_airport', name:'응우라라이 국제공항', category:'attraction', day:[1,8],
-    lat:-8.7467, lng:115.1671, address:'Jimbaran, Bali (DPS)',
-    time:'23:00 도착 / 13:15 출발', transport:'✈️',
-    desc:'1일차 23:00 도착 (SQ편) · 8일차 13:15 SQ939 출발',
-    rating:'-', priceIDR:0, priceNote:'-',
-    reserve:false, notes:'출발 2시간 전 도착 · 면세구역 쇼핑' },
 
   // ── 러닝
-  { id:'run_doghouse', name:'Rise & Run @ The Dog House', category:'running', day:[5],
+  { id:'run_doghouse', name:'Rise & Run @ The Dog House 🏃', category:'running', day:[5],
     lat:-8.6494, lng:115.1328, address:'Jl. Tanah Barak No.17A, Canggu',
     time:'06:15~07:30', transport:'🚶 빌라 도보 5분',
     desc:'목요일 새벽 무료 러닝클럽. 논밭 5km or 10km 코스.',
@@ -401,59 +375,57 @@ const PLACES = [
     reserve:false, notes:'런 후 The Dog House 브런치 추천' },
 
   // ── 요가
-  { id:'yoga_honeymoon', name:'Honeymoon Guest House 요가', category:'yoga', day:[3],
+  { id:'yoga_honeymoon', name:'Honeymoon Guest House 요가 🧘', category:'yoga', day:[3],
     lat:-8.5073, lng:115.2611, address:'Jl. Bisma, Ubud',
     time:'08:30~10:00', transport:'🚶 코마네카 도보 5분',
     desc:'하타·빈야사 클래스. 앤틱 우드 스튜디오. 소규모 진행.',
     rating:'구글 4.8', priceIDR:145000, priceNote:'1인 1.5시간',
     reserve:true, notes:'사전예약 권장 · 매일 08:30 / 16:00 2회' },
-  { id:'yoga_guanyin', name:'Guan Yin Yoga Shala', category:'yoga', day:[5],
+  { id:'yoga_guanyin', name:'Guan Yin Yoga Shala 🧘', category:'yoga', day:[6],
     lat:-8.6472, lng:115.1194, address:'Hotel Tugu, Jl. Pantai Batu Bolong, Canggu',
-    time:'10:00~11:30', transport:'🚶 빌라 도보 10분',
+    time:'06:30~08:00 (이른 아침)', transport:'🚶 빌라 도보 10분',
     desc:'발리 전통 힐링 요가. 앤틱 목조 인테리어. 신비로운 분위기.',
     rating:'구글 4.9', priceIDR:200000, priceNote:'1인 1.5시간',
-    reserve:true, notes:'러닝 대신 선택 · 사전예약 필수' }
+    reserve:true, notes:'6일차 체크아웃 전 이른 아침 · 사전예약 필수' }
 ];
 
-// 날짜별 이동경로 (방문 순서)
 const ROUTES = {
-  1:{ color:'#e8c87a', label:'7/5 공항→바투르산', dist:'약 90km', duration:'2시간',
-      coords:[[-8.7467,115.1671],[-8.2421,115.3752]], dashes:false },
-  2:{ color:'#e8a838', label:'7/6 바투르산→Karsa→코마네카', dist:'약 35km', duration:'1.5시간',
-      coords:[[-8.2421,115.3752],[-8.4893,115.2498],[-8.5147,115.2584],[-8.5192,115.2619]], dashes:false },
+  1:{ color:'#e8c87a', label:'7/5 인천출발→발리도착', dist:'약 5,200km', duration:'비행 7시간',
+      coords:[[-8.7467,115.1671],[-8.7480,115.1680],[-8.7472,115.1665]], dashes:false },
+  2:{ color:'#e8a838', label:'7/6 바투르산→Karsa→코마네카', dist:'약 55km', duration:'약 2시간',
+      coords:[[-8.7472,115.1665],[-8.2421,115.3752],[-8.4893,115.2498],[-8.5147,115.2584],[-8.5192,115.2619]], dashes:false },
   3:{ color:'#1abc9c', label:'7/7 우부드 시내 투어', dist:'약 3km', duration:'도보 위주',
       coords:[[-8.5147,115.2584],[-8.5073,115.2611],[-8.5147,115.2584],[-8.5063,115.2633],[-8.5056,115.2627],[-8.5067,115.2633],[-8.5057,115.2636],[-8.5196,115.2621],[-8.5147,115.2584],[-8.5160,115.2605]], dashes:false },
-  4:{ color:'#9b59b6', label:'7/8 우부드→짱구', dist:'약 70km', duration:'2.5시간',
-      coords:[[-8.5052,115.2563],[-8.5147,115.2584],[-8.4280,115.2793],[-8.4120,115.2832],[-8.5147,115.2584],[-8.6455,115.1332],[-8.6505,115.1310]], dashes:false },
+  4:{ color:'#9b59b6', label:'7/8 우부드→짱구', dist:'약 70km', duration:'약 2.5시간',
+      coords:[[-8.5052,115.2563],[-8.5147,115.2584],[-8.4280,115.2793],[-8.4120,115.2832],[-8.5147,115.2584],[-8.6455,115.1332],[-8.6505,115.1310],[-8.6479,115.1199]], dashes:false },
   5:{ color:'#27ae60', label:'7/9 짱구', dist:'약 5km', duration:'도보+Grab',
       coords:[[-8.6494,115.1328],[-8.6455,115.1332],[-8.6479,115.1199],[-8.6540,115.1303],[-8.6455,115.1332],[-8.6521,115.1280]], dashes:false },
-  6:{ color:'#e74c3c', label:'7/10 짱구→짐바란', dist:'약 35km', duration:'1.5시간',
-      coords:[[-8.6455,115.1332],[-8.6503,115.1252],[-8.7823,115.1580],[-8.7845,115.1558],[-8.7828,115.1572]], dashes:false },
+  6:{ color:'#e74c3c', label:'7/10 짱구→짐바란', dist:'약 35km', duration:'약 1.5시간',
+      coords:[[-8.6472,115.1194],[-8.6455,115.1332],[-8.6503,115.1252],[-8.7823,115.1580],[-8.7845,115.1558],[-8.7828,115.1572]], dashes:false },
   7:{ color:'#4a90d9', label:'7/11 아야나 호캉스', dist:'약 3km', duration:'리조트 내',
       coords:[[-8.7858,115.1545],[-8.7823,115.1580],[-8.7762,115.1658],[-8.7823,115.1580],[-8.7832,115.1568]], dashes:false },
   8:{ color:'#7a8099', label:'7/12 출국', dist:'약 15km', duration:'30분',
       coords:[[-8.7823,115.1580],[-8.7467,115.1671]], dashes:true }
 };
 
-// 날짜별 사이드패널 순서
 const DAY_ORDER = {
-  1:['attr_airport','attr_batur'],
-  2:['attr_batur','spa_karsa','rest_karsacafe','stay_01','rest_shichirin','rest_gauri'],
+  1:['attr_airport','stay_capsule','attr_circlek'],
+  2:['attr_circlek','attr_batur','spa_karsa','rest_karsacafe','stay_01','rest_shichirin','rest_gauri'],
   3:['stay_01','yoga_honeymoon','attr_palace','attr_saraswati','attr_artmarket','rest_burus','attr_monkey','spa_komaneka','rest_pasir'],
-  4:['attr_campuhan','stay_01','attr_tegalalang','rest_cretya','stay_02','rest_pennylane'],
-  5:['run_doghouse','yoga_guanyin','rest_labrisa','attr_deus','stay_02','rest_smoke'],
-  6:['stay_02','rest_sensorium','stay_03','rest_rockbar','rest_honzen'],
+  4:['attr_campuhan','stay_01','attr_tegalalang','rest_cretya','stay_02','rest_pennylane','rest_labrisa'],
+  5:['run_doghouse','rest_labrisa','attr_deus','stay_02','rest_smoke'],
+  6:['yoga_guanyin','stay_02','rest_sensorium','stay_03','rest_rockbar','rest_honzen'],
   7:['attr_kububeach','spa_calma','rest_scusa'],
   8:['stay_03','attr_airport']
 };
 
 const DAY_LABELS = {
-  1:'7/5 공항 도착 · 바투르산 출발',
+  1:'7/5 인천출발 → 발리도착 · 캡슐호텔',
   2:'7/6 바투르산 지프투어 · 우부드 체크인',
   3:'7/7 우부드 시내 풀코스',
   4:'7/8 우부드 → 짱구 이동',
-  5:'7/9 짱구 요가 & 비치클럽',
-  6:'7/10 짱구 → 짐바란 아야나',
+  5:'7/9 짱구 러닝 & 비치클럽',
+  6:'7/10 짱구 요가 → 짐바란 아야나',
   7:'7/11 아야나 호캉스',
   8:'7/12 발리 출국'
 };
@@ -462,103 +434,67 @@ const IDR_TO_KRW = 0.085;
 const PLACE_MAP = {};
 PLACES.forEach(p => { PLACE_MAP[p.id] = p; });
 
-// ═══════════════════════════════════════════════════════
-// 2. 지도 초기화
-// ═══════════════════════════════════════════════════════
+// ── 지도
 const map = L.map('map', { center:[-8.55,115.22], zoom:10 });
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
   attribution:'&copy; OpenStreetMap &copy; CARTO', maxZoom:19
 }).addTo(map);
 
-// ── 상태
-let activeDay = 'all';
-let activeCats = new Set(Object.keys(CAT));
-let showRoutes = true;
-let showKRW = false;
-let markers = {};
-let routeLayers = {};
-let panelOpen = false;
+let activeDay = 'all', activeCats = new Set(Object.keys(CAT)), showRoutes = true, showKRW = false;
+let markers = {}, routeLayers = {}, panelOpen = false;
 
-// ═══════════════════════════════════════════════════════
-// 3. 핀
-// ═══════════════════════════════════════════════════════
 function createIcon(cat, order) {
   const c = CAT[cat];
   const badge = (order != null)
-    ? `<div style="position:absolute;top:-5px;right:-5px;width:16px;height:16px;border-radius:50%;background:#0f1117;border:1.5px solid rgba(255,255,255,.6);color:#fff;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;">${order}</div>`
-    : '';
+    ? `<div style="position:absolute;top:-5px;right:-5px;width:16px;height:16px;border-radius:50%;background:#0f1117;border:1.5px solid rgba(255,255,255,.6);color:#fff;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;">${order}</div>` : '';
   return L.divIcon({
-    html:`<div style="position:relative;width:32px;height:32px;">
-      <div style="width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:${c.color};border:2px solid rgba(255,255,255,.3);box-shadow:0 3px 12px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;">
-        <span style="transform:rotate(45deg);font-size:14px;line-height:1">${c.emoji}</span>
-      </div>${badge}</div>`,
+    html:`<div style="position:relative;width:32px;height:32px;"><div style="width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:${c.color};border:2px solid rgba(255,255,255,.3);box-shadow:0 3px 12px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;"><span style="transform:rotate(45deg);font-size:14px;line-height:1">${c.emoji}</span></div>${badge}</div>`,
     className:'', iconSize:[32,32], iconAnchor:[16,32], popupAnchor:[0,-34]
   });
 }
 
 function buildPopup(p) {
   const c = CAT[p.category];
-  return `<div class="pop-inner">
-    <div class="pop-cat" style="color:${c.color}">${c.emoji} ${c.label}</div>
-    <div class="pop-name">${p.name}</div>
-    <div class="pop-addr">📍 ${p.address}</div>
-    <div class="pop-notes">${p.notes}</div>
-  </div>`;
+  return `<div class="pop-inner"><div class="pop-cat" style="color:${c.color}">${c.emoji} ${c.label}</div><div class="pop-name">${p.name}</div><div class="pop-addr">📍 ${p.address}</div><div class="pop-notes">${p.notes}</div></div>`;
 }
 
-function getOrder(placeId, day) {
-  const order = DAY_ORDER[day];
-  if (!order) return null;
-  const idx = order.indexOf(placeId);
-  return idx >= 0 ? idx + 1 : null;
+function getOrder(id, day) {
+  const o = DAY_ORDER[day]; if (!o) return null;
+  const i = o.indexOf(id); return i >= 0 ? i+1 : null;
 }
 
 PLACES.forEach(p => {
-  const m = L.marker([p.lat, p.lng], { icon: createIcon(p.category, null) })
-    .bindPopup(buildPopup(p), { maxWidth:280 });
-  m.on('click', () => {
-    if (panelOpen && activeDay !== 'all') {
-      highlightPanelItem(p.id);
-    }
-  });
+  const m = L.marker([p.lat,p.lng], { icon:createIcon(p.category,null) }).bindPopup(buildPopup(p), { maxWidth:280 });
+  m.on('click', () => { if (panelOpen && activeDay !== 'all') highlightPanelItem(p.id); });
   markers[p.id] = { marker:m, data:p };
   m.addTo(map);
 });
 
-// ═══════════════════════════════════════════════════════
-// 4. 경로
-// ═══════════════════════════════════════════════════════
-function drawRoute(dayNum) {
-  const r = ROUTES[dayNum];
-  if (!r) return;
+function drawRoute(d) {
+  const r = ROUTES[d]; if (!r) return;
   const line = L.polyline(r.coords, { color:r.color, weight:3, opacity:.8, dashArray:r.dashes?'8,8':null, lineJoin:'round' }).addTo(map);
   const arrows = [];
   for (let i=0; i<r.coords.length-1; i++) {
-    const from=r.coords[i], to=r.coords[i+1];
-    const midLat=(from[0]+to[0])/2, midLng=(from[1]+to[1])/2;
-    const angle=Math.atan2(to[1]-from[1], to[0]-from[0])*180/Math.PI;
-    const a = L.marker([midLat,midLng],{
+    const f=r.coords[i], t=r.coords[i+1];
+    const angle = Math.atan2(t[1]-f[1], t[0]-f[0])*180/Math.PI;
+    const a = L.marker([(f[0]+t[0])/2,(f[1]+t[1])/2], {
       icon:L.divIcon({ html:`<div style="color:${r.color};font-size:13px;transform:rotate(${angle}deg);opacity:.85;text-shadow:0 0 4px rgba(0,0,0,.8);">➤</div>`, className:'', iconSize:[16,16], iconAnchor:[8,8] }),
       interactive:false
     }).addTo(map);
     arrows.push(a);
   }
-  routeLayers[dayNum] = { line, arrows };
+  routeLayers[d] = { line, arrows };
 }
 
-function removeRoute(dayNum) {
-  if (routeLayers[dayNum]) {
-    map.removeLayer(routeLayers[dayNum].line);
-    routeLayers[dayNum].arrows.forEach(a => map.removeLayer(a));
-    delete routeLayers[dayNum];
-  }
+function removeRoute(d) {
+  if (!routeLayers[d]) return;
+  map.removeLayer(routeLayers[d].line);
+  routeLayers[d].arrows.forEach(a => map.removeLayer(a));
+  delete routeLayers[d];
 }
 
 Object.keys(ROUTES).forEach(d => drawRoute(Number(d)));
 
-// ═══════════════════════════════════════════════════════
-// 5. 사이드패널
-// ═══════════════════════════════════════════════════════
 function formatPrice(p) {
   if (!p.priceIDR) return p.priceNote || '-';
   if (showKRW) {
@@ -576,25 +512,19 @@ function renderPanel(day) {
   document.getElementById('sum-stops').textContent = `📍 ${order.length}곳`;
   document.getElementById('sum-dist').textContent = r ? `🚗 ${r.dist}` : '-';
   document.getElementById('sum-time').textContent = r ? `⏱️ ${r.duration}` : '-';
-
   const list = document.getElementById('panel-list');
   list.innerHTML = '';
   const dayColor = r ? r.color : '#e8c87a';
-
   order.forEach((id, idx) => {
-    const p = PLACE_MAP[id];
-    if (!p) return;
+    const p = PLACE_MAP[id]; if (!p) return;
     const c = CAT[p.category];
-    const num = idx + 1;
     const resBadge = p.reserve ? '<span class="p-badge-res">예약필수</span>' : '';
     const priceBadge = p.priceIDR > 0 ? `<span class="p-price">${formatPrice(p)}</span>` : (p.priceNote ? `<span style="font-size:11px;color:#27ae60">${p.priceNote}</span>` : '');
     const ratingBadge = p.rating && p.rating !== '-' ? `<span class="p-rating">⭐ ${p.rating}</span>` : '';
-
     const item = document.createElement('div');
-    item.className = 'p-item';
-    item.id = `pitem-${id}`;
+    item.className = 'p-item'; item.id = `pitem-${id}`;
     item.innerHTML = `
-      <div class="p-num" style="background:${dayColor}">${num}</div>
+      <div class="p-num" style="background:${dayColor}" title="지도에서 보기">${idx+1}</div>
       <div class="p-body">
         <div class="p-name">${p.name}</div>
         <div class="p-meta">
@@ -606,27 +536,15 @@ function renderPanel(day) {
         <div class="p-footer">${ratingBadge}${priceBadge}${resBadge}</div>
         ${p.notes ? `<div class="p-note">${p.notes}</div>` : ''}
       </div>`;
-
-    // 번호 클릭 → 지도 flyTo + 팝업
-    item.querySelector('.p-num').addEventListener('click', (e) => {
+    item.querySelector('.p-num').addEventListener('click', e => {
       e.stopPropagation();
       const mk = markers[id];
-      if (mk) {
-        map.flyTo([mk.data.lat, mk.data.lng], 16, { duration:0.8 });
-        setTimeout(() => mk.marker.openPopup(), 900);
-      }
+      if (mk) { map.flyTo([mk.data.lat,mk.data.lng], 16, { duration:.8 }); setTimeout(() => mk.marker.openPopup(), 900); }
     });
-
-    // 아이템 클릭 → 지도 flyTo
     item.addEventListener('click', () => {
       const mk = markers[id];
-      if (mk) {
-        map.flyTo([mk.data.lat, mk.data.lng], 15, { duration:0.7 });
-        setTimeout(() => mk.marker.openPopup(), 800);
-        highlightPanelItem(id);
-      }
+      if (mk) { map.flyTo([mk.data.lat,mk.data.lng], 15, { duration:.7 }); setTimeout(() => mk.marker.openPopup(), 800); highlightPanelItem(id); }
     });
-
     list.appendChild(item);
   });
 }
@@ -634,10 +552,7 @@ function renderPanel(day) {
 function highlightPanelItem(id) {
   document.querySelectorAll('.p-item').forEach(el => el.classList.remove('active'));
   const el = document.getElementById(`pitem-${id}`);
-  if (el) {
-    el.classList.add('active');
-    el.scrollIntoView({ behavior:'smooth', block:'nearest' });
-  }
+  if (el) { el.classList.add('active'); el.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
 }
 
 function openPanel(day) {
@@ -653,9 +568,6 @@ window.closePanel = function() {
   setTimeout(() => map.invalidateSize(), 320);
 };
 
-// ═══════════════════════════════════════════════════════
-// 6. 마커 업데이트
-// ═══════════════════════════════════════════════════════
 function updateMarkers() {
   PLACES.forEach(p => {
     const { marker } = markers[p.id];
@@ -664,13 +576,10 @@ function updateMarkers() {
     const order = activeDay !== 'all' ? getOrder(p.id, activeDay) : null;
     marker.setIcon(createIcon(p.category, order));
     if (dayOk && catOk) { if (!map.hasLayer(marker)) marker.addTo(map); }
-    else                 { if (map.hasLayer(marker)) map.removeLayer(marker); }
+    else { if (map.hasLayer(marker)) map.removeLayer(marker); }
   });
 }
 
-// ═══════════════════════════════════════════════════════
-// 7. 컨트롤 핸들러
-// ═══════════════════════════════════════════════════════
 window.filterDay = function(d) {
   activeDay = d;
   document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
@@ -684,8 +593,8 @@ window.filterDay = function(d) {
     const pts = PLACES.filter(p=>p.day.includes(d));
     if (pts.length) {
       const r = ROUTES[d];
-      const allLats = [...pts.map(p=>p.lat), ...(r?r.coords.map(c=>c[0]):[])];
-      const allLngs = [...pts.map(p=>p.lng), ...(r?r.coords.map(c=>c[1]):[])];
+      const allLats = [...pts.map(p=>p.lat),...(r?r.coords.map(c=>c[0]):[])];
+      const allLngs = [...pts.map(p=>p.lng),...(r?r.coords.map(c=>c[1]):[])];
       map.fitBounds([[Math.min(...allLats)-.03,Math.min(...allLngs)-.03],[Math.max(...allLats)+.03,Math.max(...allLngs)+.03]],{padding:[40,40]});
     }
     if (showRoutes) { Object.keys(routeLayers).forEach(k=>removeRoute(Number(k))); drawRoute(d); }
@@ -716,49 +625,30 @@ window.toggleKRW = function() {
   if (panelOpen && activeDay !== 'all') renderPanel(activeDay);
 };
 
-// ═══════════════════════════════════════════════════════
-// 8. 모바일 하단시트 드래그
-// ═══════════════════════════════════════════════════════
 (function() {
   const drag = document.getElementById('panel-drag');
   const panel = document.getElementById('panel');
   let startY, startH;
   const isMobile = () => window.innerWidth <= 768;
-
-  drag.addEventListener('touchstart', (e) => {
+  drag.addEventListener('touchstart', e => {
     if (!isMobile()) return;
-    startY = e.touches[0].clientY;
-    startH = panel.offsetHeight;
+    startY = e.touches[0].clientY; startH = panel.offsetHeight;
     panel.style.transition = 'none';
   });
-
-  drag.addEventListener('touchmove', (e) => {
+  drag.addEventListener('touchmove', e => {
     if (!isMobile() || startY == null) return;
     e.preventDefault();
-    const dy = startY - e.touches[0].clientY;
     const mainH = document.getElementById('main').offsetHeight;
-    const newH = Math.max(0, Math.min(mainH * 0.9, startH + dy));
-    panel.style.height = newH + 'px';
+    panel.style.height = Math.max(0, Math.min(mainH * 0.9, startH + startY - e.touches[0].clientY)) + 'px';
   }, { passive: false });
-
   drag.addEventListener('touchend', () => {
     if (!isMobile()) return;
     panel.style.transition = 'height .3s ease';
-    const mainH = document.getElementById('main').offsetHeight;
-    const h = panel.offsetHeight;
-    if (h < mainH * 0.15) {
-      closePanel();
-      panel.style.height = '';
-    } else if (h > mainH * 0.65) {
-      panel.classList.add('expanded');
-      panel.classList.add('open');
-      panel.style.height = '';
-    } else {
-      panel.classList.remove('expanded');
-      panel.classList.add('open');
-      panel.style.height = '';
-    }
-    startY = null;
+    const mainH = document.getElementById('main').offsetHeight, h = panel.offsetHeight;
+    if (h < mainH * 0.15) { closePanel(); }
+    else if (h > mainH * 0.65) { panel.classList.add('expanded'); panel.classList.add('open'); }
+    else { panel.classList.remove('expanded'); panel.classList.add('open'); }
+    panel.style.height = ''; startY = null;
     setTimeout(() => map.invalidateSize(), 320);
   });
 })();
