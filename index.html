@@ -104,6 +104,38 @@ body { font-family:'Segoe UI',-apple-system,sans-serif; background:#0f1117; colo
 .pop-addr { font-size:11px; color:#9da5b4; font-style:italic; margin-bottom:6px; }
 .pop-notes { font-size:11px; color:#b0b8c8; line-height:1.5; border-top:1px solid #2a2f3e; padding-top:6px; }
 .leaflet-popup-close-button { color:#7a8099 !important; }
+
+/* ── 드래그 핸들 (모바일) ── */
+#panel-drag { display:none; }
+
+/* ── 모바일 반응형 ── */
+@media (max-width:768px) {
+  #header h1 { font-size:13px; }
+  #header span { font-size:11px; }
+  #controls { padding:6px 12px; gap:5px; }
+  .day-btn { padding:3px 8px; font-size:10px; }
+  .cat-chip { padding:2px 7px; font-size:10px; }
+  .route-toggle, .krw-toggle { padding:3px 8px; font-size:10px; }
+  .divider { display:none; }
+  .ctrl-label { font-size:9px; }
+
+  #main { position:relative; }
+  #panel {
+    position:absolute; bottom:0; left:0; right:0; z-index:1000;
+    width:100% !important; min-width:100%; height:0;
+    border-right:none; border-top:1px solid #2a2f3e;
+    border-radius:16px 16px 0 0;
+    transition:height .3s ease;
+  }
+  #panel.open { height:50%; }
+  #panel.expanded { height:85%; }
+  #panel-drag {
+    display:flex; justify-content:center; padding:8px 0 4px; cursor:grab; flex-shrink:0;
+  }
+  #panel-drag .handle {
+    width:36px; height:4px; border-radius:2px; background:#555;
+  }
+}
 </style>
 </head>
 <body>
@@ -139,6 +171,7 @@ body { font-family:'Segoe UI',-apple-system,sans-serif; background:#0f1117; colo
 
 <div id="main">
   <div id="panel">
+    <div id="panel-drag"><div class="handle"></div></div>
     <div id="panel-header">
       <div>
         <div id="panel-title">날짜를 선택하세요</div>
@@ -676,6 +709,53 @@ window.toggleKRW = function() {
   document.getElementById('krwBtn').classList.toggle('active', showKRW);
   if (panelOpen && activeDay !== 'all') renderPanel(activeDay);
 };
+
+// ═══════════════════════════════════════════════════════
+// 8. 모바일 하단시트 드래그
+// ═══════════════════════════════════════════════════════
+(function() {
+  const drag = document.getElementById('panel-drag');
+  const panel = document.getElementById('panel');
+  let startY, startH;
+  const isMobile = () => window.innerWidth <= 768;
+
+  drag.addEventListener('touchstart', (e) => {
+    if (!isMobile()) return;
+    startY = e.touches[0].clientY;
+    startH = panel.offsetHeight;
+    panel.style.transition = 'none';
+  });
+
+  drag.addEventListener('touchmove', (e) => {
+    if (!isMobile() || startY == null) return;
+    e.preventDefault();
+    const dy = startY - e.touches[0].clientY;
+    const mainH = document.getElementById('main').offsetHeight;
+    const newH = Math.max(0, Math.min(mainH * 0.9, startH + dy));
+    panel.style.height = newH + 'px';
+  }, { passive: false });
+
+  drag.addEventListener('touchend', () => {
+    if (!isMobile()) return;
+    panel.style.transition = 'height .3s ease';
+    const mainH = document.getElementById('main').offsetHeight;
+    const h = panel.offsetHeight;
+    if (h < mainH * 0.15) {
+      closePanel();
+      panel.style.height = '';
+    } else if (h > mainH * 0.65) {
+      panel.classList.add('expanded');
+      panel.classList.add('open');
+      panel.style.height = '';
+    } else {
+      panel.classList.remove('expanded');
+      panel.classList.add('open');
+      panel.style.height = '';
+    }
+    startY = null;
+    setTimeout(() => map.invalidateSize(), 320);
+  });
+})();
 </script>
 </body>
 </html>
